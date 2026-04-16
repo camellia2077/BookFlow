@@ -5,3 +5,7 @@
 *.txt
 *.log
 *.azw3
+
+__pycache__/
+temp/
+output/
