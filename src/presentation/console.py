@@ -70,12 +70,22 @@ def display_archive_error(dir_path, error_msg):
     sys.stdout.flush()
 
 
-def display_batch_summary(compressed_count, skipped_count, error_count):
+def display_invalid_name(filename):
+    sys.stdout.write(f"[命名跳过]: 文件名不符合“作者 - 书名”格式 -> {filename}\n")
+    sys.stdout.flush()
+
+
+def display_batch_summary(compressed_count, skipped_count, error_count, invalid_name_count, invalid_name_files=None):
+    invalid_name_files = invalid_name_files or []
     sys.stdout.write(f"\n" + "=" * 40 + "\n")
     sys.stdout.write("[批量任务报告]\n")
     sys.stdout.write(f"  成功归档目录数: {compressed_count}\n")
     sys.stdout.write(f"  跳过目录数: {skipped_count}\n")
     sys.stdout.write(f"  异常目录数: {error_count}\n")
+    sys.stdout.write(f"  命名不符合预期数: {invalid_name_count}\n")
+    if invalid_name_files:
+        sys.stdout.write("  命名不符合预期文件:\n")
+        for invalid_file in invalid_name_files:
+            sys.stdout.write(f"    - {invalid_file}\n")
     sys.stdout.write("=" * 40 + "\n")
     sys.stdout.flush()
-

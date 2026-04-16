@@ -46,12 +46,30 @@ python -m src.app.main convert <输入路径> -f pdf
 ```bash
 python -m src.app.main convert "C:\闲鱼书" -f pdf
 python -m src.app.main convert "C:\books\test.epub" -f pdf
+python -m src.app.main convert "C:\books\test.epub" -f txt
+python -m src.app.main convert "C:\books\test.epub" -f docx
+python -m src.app.main convert "C:\闲鱼书" -f pdf --no-archive
 ```
 
 说明：
 
 - `<输入路径>` 可以是单文件，也可以是目录
 - `-f / --format` 是目标格式，默认 `pdf`
+- `--format` 当前只允许：`pdf`、`txt`、`docx`
+- `--no-archive` 表示只转换和生成说明文件，不压缩，也不复制到 `输出归档`
+
+### `convert` 参数说明
+
+- `-f pdf`
+  - 对 `epub / mobi / azw3`，当前会额外生成 `pdf + txt + docx`
+- `-f txt`
+  - 只生成 `txt`
+- `-f docx`
+  - 只生成 `docx`
+- `--no-archive`
+  - 只转换、生成 `文件清单.txt`、`商品介绍.txt` 和汇总文件
+  - 不生成压缩包
+  - 不复制到 `输出归档`
 
 ## 2. 仅扫描敏感词
 
@@ -109,9 +127,10 @@ python -m src.app.main scan "C:\闲鱼书"
 3. 调 Calibre 做格式转换
 4. 生成 `文件清单.txt`
 5. 生成 `商品介绍.txt`
-6. 对转换目录打包到 `输出归档`
-7. 对纯 PDF 目录复制到 `输出归档`
-8. 在 `output/` 下写汇总文件
+6. 如果未传 `--no-archive`：
+   - 对转换目录打包到 `输出归档`
+   - 对纯 PDF 目录复制到 `输出归档`
+7. 在 `output/` 下写汇总文件
 
 ## 输出结果说明
 
@@ -139,6 +158,10 @@ python -m src.app.main scan "C:\闲鱼书"
 
 - 转换过的目录：进入 zip
 - 纯 PDF 目录：直接复制文件夹
+
+如果使用了 `--no-archive`：
+
+- 不会生成 `输出归档`
 
 注意：
 
@@ -172,6 +195,11 @@ python -m src.app.main scan "C:\闲鱼书"
 - `pdf`
 - `txt`
 - `docx`
+
+如果目标格式是：
+
+- `txt`：只生成 `txt`
+- `docx`：只生成 `docx`
 
 ### 页数统计规则
 
@@ -210,4 +238,3 @@ Windows 控制台默认可能是 `gbk`，项目入口里的帮助文案已经去
 看这里：
 
 - [settings.py](C:/code/format/src/settings.py)
-
